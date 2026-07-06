@@ -27,33 +27,6 @@ interface AuthState {
   setHasHydrated: (val: boolean) => void;
 }
 
-// ─── Cookie storage adapter ───────────────────────────────────────────────────
-// Next.js App Router has severe hydration race conditions with localStorage.
-// We MUST use cookies so the auth state survives page refreshes reliably.
-// ─────────────────────────────────────────────────────────────────────────────
-import { createJSONStorage } from 'zustand/middleware';
-
-const COOKIE_MAX_AGE = 30 * 24 * 60 * 60; // 30 days
-
-const cookieStorage = createJSONStorage(() => ({
-  getItem: (name: string): string | null => {
-    if (typeof document === 'undefined') return null;
-    const match = document.cookie.match(
-      new RegExp('(?:^|; )' + name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '=([^;]*)')
-    );
-    return match ? decodeURIComponent(match[1]) : null;
-  },
-  setItem: (name: string, value: string): void => {
-    if (typeof document === 'undefined') return;
-    const isSecure = typeof location !== 'undefined' && location.protocol === 'https:';
-    document.cookie = `${name}=${encodeURIComponent(value)}; Max-Age=${COOKIE_MAX_AGE}; Path=/; SameSite=Lax${isSecure ? '; Secure' : ''}`;
-  },
-  removeItem: (name: string): void => {
-    if (typeof document === 'undefined') return;
-    document.cookie = `${name}=; Max-Age=0; Path=/`;
-  },
-}));
-
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -76,7 +49,6 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'etapalwala-auth',
-      storage: cookieStorage,
       partialize: (state) => ({
         user: state.user,
         accessToken: state.accessToken,
