@@ -7,7 +7,7 @@ import api from '@/lib/api';
 import { Pagination } from '@/components/ui/Pagination';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { PageLoader, EmptyState } from '@/components/ui/Spinner';
-import { formatDate } from '@/lib/utils';
+import { formatDate, getDownloadUrl } from '@/lib/utils';
 
 export default function GlobalLogsPage() {
   const [page, setPage] = useState(1);
@@ -118,7 +118,7 @@ export default function GlobalLogsPage() {
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="text-xs text-primary-600 hover:text-primary-700 font-semibold hover:underline max-w-[150px] truncate block"
-                        title="Click to view PDF"
+                        title="Click to download PDF"
                       >
                         📄 {log.document.originalName}
                       </a>
@@ -294,7 +294,7 @@ function BulkProgressCard({ bulkOperationId, onClose }: { bulkOperationId: strin
             rel="noopener noreferrer"
             className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
           >
-            📄 View PDF Document
+            📄 Download PDF Document
           </a>
           {operationStatus?.csvFileUrl && (
             <a

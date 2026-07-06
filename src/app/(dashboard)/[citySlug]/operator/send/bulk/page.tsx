@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Upload, FileText, X, Zap, Loader2, CheckCircle2, Users, AlertCircle, RefreshCw, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '@/lib/api';
-import { getErrorMessage } from '@/lib/utils';
+import { getErrorMessage, getDownloadUrl } from '@/lib/utils';
 import { MetaSandboxNotice } from '@/components/ui/MetaSandboxNotice';
 import { useParams } from 'next/navigation';
 
@@ -336,7 +336,7 @@ export default function BulkSendPage() {
                 rel="noopener noreferrer"
                 className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
               >
-                📄 View PDF Document
+                📄 Download PDF Document
               </a>
               {operationStatus?.csvFileUrl && (
                 <a

@@ -8,7 +8,7 @@ import { Pagination } from '@/components/ui/Pagination';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { TableSkeleton } from '@/components/ui/SkeletonLoader';
 import { EmptyState } from '@/components/ui/Spinner';
-import { formatDate } from '@/lib/utils';
+import { formatDate, getDownloadUrl } from '@/lib/utils';
 import { MetaSandboxNotice } from '@/components/ui/MetaSandboxNotice';
 
 const STATUSES = ['QUEUED', 'PROCESSING', 'SENT', 'DELIVERED', 'READ', 'FAILED', 'RETRYING'];
@@ -162,7 +162,7 @@ export default function OperatorLogsPage() {
                         target="_blank" 
                         rel="noopener noreferrer" 
                         className="text-xs text-primary-600 hover:text-primary-700 font-semibold hover:underline max-w-[130px] truncate block"
-                        title="Click to view PDF"
+                        title="Click to download PDF"
                       >
                         📄 {log.document.originalName}
                       </a>
@@ -354,7 +354,7 @@ function BulkProgressCard({ bulkOperationId, onClose }: { bulkOperationId: strin
             rel="noopener noreferrer"
             className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
           >
-            📄 View PDF Document
+            📄 Download PDF Document
           </a>
           {operationStatus?.csvFileUrl && (
             <a

@@ -34,3 +34,28 @@ export function getErrorMessage(error: any): string {
     'Something went wrong'
   );
 }
+
+export function getDownloadUrl(url: string): string {
+  return url || '';
+}
+
+export async function downloadFileDirectly(url: string, filename: string) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      window.open(url, '_blank');
+      return;
+    }
+    const blob = await response.blob();
+    const blobUrl = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(blobUrl);
+    a.remove();
+  } catch (err) {
+    window.open(url, '_blank');
+  }
+}
