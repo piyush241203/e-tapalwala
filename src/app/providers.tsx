@@ -2,9 +2,24 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'react-hot-toast';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+// ─── Silently wake the Render backend on app load ──────────────────────────
+// Render free tier sleeps after 15 min of inactivity. This ping fires when
+// the app first mounts so by the time the user makes a real API call,
+// the backend is already warm.
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+function useWakeBackend() {
+  useEffect(() => {
+    fetch(`${API_URL}/health`, { method: 'GET', cache: 'no-store' }).catch(() => {
+      // Silently ignore — this is just a best-effort warm-up ping
+    });
+  }, []);
+}
 
 export function Providers({ children }: { children: React.ReactNode }) {
+  useWakeBackend();
+
   const [queryClient] = useState(
     () =>
       new QueryClient({

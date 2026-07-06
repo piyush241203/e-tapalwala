@@ -12,13 +12,18 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     // ─── CRITICAL: Do NOT make any auth decisions until Zustand has
-    // finished hydrating from localStorage. Without this guard, the
-    // layout runs with user=null on first render and immediately
-    // pushes to /login even for logged-in users.
-    if (!_hasHydrated) return;
+    // finished hydrating from localStorage AND the component is mounted.
+    // Without this guard, the layout runs with user=null on first render
+    // and immediately pushes to /login even for logged-in users.
+    if (!isMounted || !_hasHydrated) return;
 
     if (!accessToken || !user) {
       if (pathname.startsWith('/super-admin') || pathname.startsWith('/admin')) {
@@ -78,7 +83,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   // ─── Show loader while Zustand is still reading from localStorage ───
   // This replaces the old `if (!user) return <PageLoader />` which would
   // sometimes flash and then redirect even for authenticated users.
-  if (!_hasHydrated) {
+  if (!isMounted || !_hasHydrated) {
     return <PageLoader />;
   }
 
