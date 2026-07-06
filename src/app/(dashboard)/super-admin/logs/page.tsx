@@ -16,7 +16,7 @@ export default function GlobalLogsPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: ['global-logs', page, filters],
-    queryFn: () => api.get('/super-admin/logs', { params: { page, ...filters } }).then(r => r.data),
+    queryFn: () => api.get('/super-admin/logs', { params: { page, limit: 10, ...filters } }).then(r => r.data),
   });
 
   const { data: citiesData } = useQuery({
@@ -142,7 +142,7 @@ export default function GlobalLogsPage() {
               ))}
             </tbody>
           </table>
-          <Pagination page={page} pages={data?.pages || 1} total={data?.total || 0} limit={20} onPageChange={setPage} />
+          <Pagination page={page} pages={data?.pages || 1} total={data?.total || 0} limit={10} onPageChange={setPage} />
         </div>
       )}
 

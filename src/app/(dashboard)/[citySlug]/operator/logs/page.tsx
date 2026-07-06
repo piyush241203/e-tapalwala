@@ -35,7 +35,7 @@ export default function OperatorLogsPage() {
 
   const { data, isLoading, isFetching, dataUpdatedAt } = useQuery({
     queryKey: ['operator-logs', page, status, channel, debouncedSearch],
-    queryFn: () => api.get('/operator/messages', { params: { page, status, channel, search: debouncedSearch } }).then(r => r.data),
+    queryFn: () => api.get('/operator/messages', { params: { page, limit: 10, status, channel, search: debouncedSearch } }).then(r => r.data),
     placeholderData: keepPreviousData,
     refetchInterval: 20000,
   });
@@ -202,7 +202,7 @@ export default function OperatorLogsPage() {
               ))}
             </tbody>
           </table>
-          <Pagination page={page} pages={data?.pages || 1} total={data?.total || 0} limit={20} onPageChange={setPage} />
+          <Pagination page={page} pages={data?.pages || 1} total={data?.total || 0} limit={10} onPageChange={setPage} />
         </div>
       )}
 

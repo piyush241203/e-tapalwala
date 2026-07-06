@@ -29,7 +29,7 @@ export default function CityAdminMessagesPage() {
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey: ['city-messages', page, filters],
-    queryFn: () => api.get('/city-admin/messages', { params: { page, ...filters } }).then(r => r.data),
+    queryFn: () => api.get('/city-admin/messages', { params: { page, limit: 10, ...filters } }).then(r => r.data),
     placeholderData: keepPreviousData,
   });
 
@@ -190,7 +190,7 @@ export default function CityAdminMessagesPage() {
               ))}
             </tbody>
           </table>
-          <Pagination page={page} pages={data?.pages || 1} total={data?.total || 0} limit={20} onPageChange={setPage} />
+          <Pagination page={page} pages={data?.pages || 1} total={data?.total || 0} limit={10} onPageChange={setPage} />
         </div>
       )}
 
