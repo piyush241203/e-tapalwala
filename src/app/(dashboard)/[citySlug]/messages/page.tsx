@@ -334,7 +334,30 @@ function BulkProgressCard({ bulkOperationId, onClose }: { bulkOperationId: strin
         </div>
       )}
 
-      <div className="pt-2 flex justify-end">
+      {operationStatus?.document?.id && (
+        <div className="flex gap-3 justify-center pt-2">
+          <a
+            href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/operator/documents/${operationStatus.document.id}/view`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
+          >
+            📄 View PDF Document
+          </a>
+          {operationStatus?.csvFileUrl && (
+            <a
+              href={operationStatus.csvFileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
+            >
+              📊 Download CSV file
+            </a>
+          )}
+        </div>
+      )}
+
+      <div className="pt-1 flex justify-end">
         <button className="btn-secondary py-2 px-4 text-xs font-semibold" onClick={onClose}>
           Dismiss
         </button>

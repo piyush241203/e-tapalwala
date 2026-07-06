@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Upload, FileText, X, Zap, Loader2, CheckCircle2, Users, AlertCircle, RefreshCw } from 'lucide-react';
+import { Upload, FileText, X, Zap, Loader2, CheckCircle2, Users, AlertCircle, RefreshCw, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '@/lib/api';
 import { getErrorMessage } from '@/lib/utils';
@@ -101,7 +101,7 @@ export default function BulkSendPage() {
         <p className="page-subtitle">Send a document to multiple recipients using a CSV file</p>
       </div>
 
-      <MetaSandboxNotice />
+      {/* <MetaSandboxNotice /> */}
 
       {!result ? (
         <form onSubmit={handleSend} className="space-y-5">
@@ -134,6 +134,15 @@ export default function BulkSendPage() {
                   <div className="flex items-center gap-2 p-3 bg-primary-50 rounded-xl border border-primary-100">
                     <FileText size={16} className="text-primary-600" />
                     <p className="text-xs text-gray-700 truncate flex-1">{pdfFile.name}</p>
+                    <a
+                      href={URL.createObjectURL(pdfFile)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-1 text-gray-400 hover:text-primary-600 rounded hover:bg-white transition-all"
+                      title="View PDF"
+                    >
+                      <Eye size={14} />
+                    </a>
                     <button type="button" onClick={() => setPdfFile(null)}>
                       <X size={14} className="text-gray-400 hover:text-red-500" />
                     </button>
@@ -158,6 +167,15 @@ export default function BulkSendPage() {
                     <div className="flex items-center gap-2 p-3 bg-accent-50 rounded-xl border border-accent-100">
                       <Users size={16} className="text-accent-600" />
                       <p className="text-xs text-gray-700 truncate flex-1">{csvFile.name}</p>
+                      <a
+                        href={URL.createObjectURL(csvFile)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-1 text-gray-400 hover:text-accent-600 rounded hover:bg-white transition-all"
+                        title="View CSV"
+                      >
+                        <Eye size={14} />
+                      </a>
                       <button type="button" onClick={() => { setCsvFile(null); setPreview(null); }}>
                         <X size={14} className="text-gray-400 hover:text-red-500" />
                       </button>
@@ -263,7 +281,7 @@ export default function BulkSendPage() {
                         ? 'All Messages Sent Successfully!'
                         : 'Bulk Sending Completed with Errors'}
               </h3>
-              <p className="text-xs text-gray-500 font-medium">Operation ID: <code className="font-mono bg-white/45 px-1.5 py-0.5 rounded text-[11px]">{result.bulkOperationId}</code></p>
+              {/* <p className="text-xs text-gray-500 font-medium">Operation ID: <code className="font-mono bg-white/45 px-1.5 py-0.5 rounded text-[11px]">{result.bulkOperationId}</code></p> */}
             </div>
           </div>
 
@@ -307,6 +325,29 @@ export default function BulkSendPage() {
                 <span>{Math.round(((operationStatus.sentCount + operationStatus.failedCount) / operationStatus.totalRecipients) * 100)}% Complete</span>
                 <span>100%</span>
               </div>
+            </div>
+          )}
+
+          {operationStatus?.document?.id && (
+            <div className="flex gap-3 justify-center pt-2">
+              <a
+                href={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000'}/operator/documents/${operationStatus.document.id}/view`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
+              >
+                📄 View PDF Document
+              </a>
+              {operationStatus?.csvFileUrl && (
+                <a
+                  href={operationStatus.csvFileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-secondary py-2 px-3 text-xs font-semibold flex-1 text-center justify-center flex items-center gap-1.5 hover:bg-gray-100 transition-colors"
+                >
+                  📊 Download CSV file
+                </a>
+              )}
             </div>
           )}
 

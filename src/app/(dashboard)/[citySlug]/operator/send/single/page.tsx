@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Upload, Send, FileText, CheckCircle2, Loader2, X } from 'lucide-react';
+import { Upload, Send, FileText, CheckCircle2, Loader2, X, Eye } from 'lucide-react';
 import toast from 'react-hot-toast';
 import api from '@/lib/api';
 import { getErrorMessage } from '@/lib/utils';
@@ -54,7 +54,7 @@ export default function SingleSendPage() {
         <p className="page-subtitle">Send a PDF document to a single recipient</p>
       </div>
 
-      <MetaSandboxNotice />
+      {/* <MetaSandboxNotice /> */}
 
       <form onSubmit={handleSend} className="space-y-5">
         {/* File Upload */}
@@ -78,10 +78,21 @@ export default function SingleSendPage() {
                 <p className="text-sm font-medium text-gray-900 truncate">{file.name}</p>
                 <p className="text-xs text-gray-400">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
               </div>
-              <button type="button" onClick={() => setFile(null)}
-                className="p-1 text-gray-400 hover:text-red-500 rounded">
-                <X size={16} />
-              </button>
+              <div className="flex items-center gap-2">
+                <a
+                  href={URL.createObjectURL(file)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-1.5 text-gray-400 hover:text-primary-600 rounded hover:bg-white border border-transparent hover:border-gray-200 transition-all"
+                  title="View PDF"
+                >
+                  <Eye size={16} />
+                </a>
+                <button type="button" onClick={() => setFile(null)}
+                  className="p-1.5 text-gray-400 hover:text-red-500 rounded hover:bg-white border border-transparent hover:border-gray-200 transition-all">
+                  <X size={16} />
+                </button>
+              </div>
             </div>
           )}
         </div>
