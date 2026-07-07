@@ -9,6 +9,16 @@ import { StatusBadge } from '@/components/ui/StatusBadge';
 import { PageLoader, EmptyState } from '@/components/ui/Spinner';
 import { formatDate, getDownloadUrl } from '@/lib/utils';
 
+const STATUS_LABELS: Record<string, string> = {
+  QUEUED: 'Queued',
+  PROCESSING: 'Processing',
+  SENT: 'Sent',
+  DELIVERED: 'Delivered',
+  READ: 'Read',
+  FAILED: 'Failed',
+  RETRYING: 'Retrying',
+};
+
 export default function GlobalLogsPage() {
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({ status: '', channel: '', cityId: '', startDate: '', endDate: '' });
@@ -43,7 +53,7 @@ export default function GlobalLogsPage() {
             <select className="select w-40" value={filters.status} onChange={e => f('status', e.target.value)}>
               <option value="">All Statuses</option>
               {['QUEUED','PROCESSING','SENT','DELIVERED','READ','FAILED','RETRYING'].map(s =>
-                <option key={s} value={s}>{s}</option>)}
+                <option key={s} value={s}>{STATUS_LABELS[s] || s}</option>)}
             </select>
           </div>
           <div>

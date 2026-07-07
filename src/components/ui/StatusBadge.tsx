@@ -6,19 +6,19 @@ type StatusKey =
   | 'ACTIVE' | 'INACTIVE' | 'COMPLETED' | 'DRAFT';
 
 const statusConfig: Record<StatusKey, { label: string; className: string }> = {
-  UPLOADED:   { label: 'Uploaded',   className: 'badge-gray' },
-  QUEUED:     { label: 'Queued',     className: 'badge-warning' },
+  UPLOADED: { label: 'Uploaded', className: 'badge-gray' },
+  QUEUED: { label: 'Queued', className: 'badge-warning' },
   PROCESSING: { label: 'Processing', className: 'badge-info' },
-  SENT:       { label: 'Sent',       className: 'badge-info' },
-  DELIVERED:  { label: 'Delivered',  className: 'badge-success' },
-  READ:       { label: 'Read',       className: 'badge-success' },
-  FAILED:     { label: 'Failed',     className: 'badge-danger' },
-  RETRYING:   { label: 'Retrying',   className: 'badge-orange' },
-  CANCELLED:  { label: 'Cancelled',  className: 'badge-gray' },
-  ACTIVE:     { label: 'Active',     className: 'badge-success' },
-  INACTIVE:   { label: 'Inactive',   className: 'badge-gray' },
-  COMPLETED:  { label: 'Completed',  className: 'badge-success' },
-  DRAFT:      { label: 'Draft',      className: 'badge-gray' },
+  SENT: { label: 'Sent', className: 'badge-info' },
+  DELIVERED: { label: 'Delivered', className: 'badge-success' },
+  READ: { label: 'Read', className: 'badge-success' },
+  FAILED: { label: 'Failed', className: 'badge-danger' },
+  RETRYING: { label: 'Retrying', className: 'badge-orange' },
+  CANCELLED: { label: 'Cancelled', className: 'badge-gray' },
+  ACTIVE: { label: 'Active', className: 'badge-success' },
+  INACTIVE: { label: 'Inactive', className: 'badge-gray' },
+  COMPLETED: { label: 'Completed', className: 'badge-success' },
+  DRAFT: { label: 'Draft', className: 'badge-gray' },
 };
 
 export function StatusBadge({ status }: { status: string }) {

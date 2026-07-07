@@ -11,6 +11,14 @@ import { EmptyState } from '@/components/ui/Spinner';
 import { formatDate, getDownloadUrl } from '@/lib/utils';
 
 const STATUSES = ['QUEUED', 'PROCESSING', 'SENT', 'DELIVERED', 'READ', 'FAILED'];
+const STATUS_LABELS: Record<string, string> = {
+  QUEUED: 'Queued',
+  PROCESSING: 'Processing',
+  SENT: 'Sent',
+  DELIVERED: 'Delivered',
+  READ: 'Read',
+  FAILED: 'Failed',
+};
 
 export default function CityAdminMessagesPage() {
   const [page, setPage] = useState(1);
@@ -79,7 +87,7 @@ export default function CityAdminMessagesPage() {
             <label className="label">Status</label>
             <select className="select" value={filters.status} onChange={e => f('status', e.target.value)}>
               <option value="">All</option>
-              {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+              {STATUSES.map(s => <option key={s} value={s}>{STATUS_LABELS[s] || s}</option>)}
             </select>
           </div>
           <div>

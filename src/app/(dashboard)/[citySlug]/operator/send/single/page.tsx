@@ -32,7 +32,7 @@ export default function SingleSendPage() {
     },
     onSuccess: (res) => {
       setResult(res.data);
-      toast.success('Message queued successfully!');
+      toast.success('Message sent successfully!');
       setFile(null);
       setMobile('');
       setBody('');

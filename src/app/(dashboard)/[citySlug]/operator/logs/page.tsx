@@ -12,6 +12,15 @@ import { formatDate, getDownloadUrl } from '@/lib/utils';
 import { MetaSandboxNotice } from '@/components/ui/MetaSandboxNotice';
 
 const STATUSES = ['QUEUED', 'PROCESSING', 'SENT', 'DELIVERED', 'READ', 'FAILED', 'RETRYING'];
+const STATUS_LABELS: Record<string, string> = {
+  QUEUED: 'Queued',
+  PROCESSING: 'Processing',
+  SENT: 'Sent',
+  DELIVERED: 'Delivered',
+  READ: 'Read',
+  FAILED: 'Failed',
+  RETRYING: 'Retrying',
+};
 
 export default function OperatorLogsPage() {
   const [page, setPage] = useState(1);
@@ -88,7 +97,7 @@ export default function OperatorLogsPage() {
         <div>
           <select className="select w-40" value={status} onChange={e => { setStatus(e.target.value); setPage(1); }}>
             <option value="">All Status</option>
-            {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
+            {STATUSES.map(s => <option key={s} value={s}>{STATUS_LABELS[s] || s}</option>)}
           </select>
         </div>
         <div>
