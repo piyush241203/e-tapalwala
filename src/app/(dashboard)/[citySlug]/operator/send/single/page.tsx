@@ -32,7 +32,7 @@ export default function SingleSendPage() {
     },
     onSuccess: (res) => {
       setResult(res.data);
-      toast.success('Message sent successfully!');
+      toast.success('Submitted to WhatsApp successfully!');
       setFile(null);
       setMobile('');
       setBody('');
@@ -151,16 +151,24 @@ export default function SingleSendPage() {
 
       {/* Result */}
       {result && (
-        <div className="card border-green-200 bg-green-50">
-          <div className="flex items-center gap-3 mb-2">
-            <CheckCircle2 size={20} className="text-green-600" />
-            <h3 className="text-sm font-semibold text-green-800">Message Queued</h3>
+        <div className="card border-green-200 bg-green-50 space-y-3">
+          <div className="flex items-center gap-3">
+            <CheckCircle2 size={20} className="text-green-600 flex-shrink-0" />
+            <h3 className="text-sm font-semibold text-green-800">Message Submitted to Meta</h3>
           </div>
           <div className="grid grid-cols-2 gap-2 text-xs text-green-700">
-            <div><span className="text-green-500">Message ID:</span> <code className="bg-white/60 px-1 rounded">{result.messageLogId?.slice(0, 12)}…</code></div>
-            <div><span className="text-green-500">Document ID:</span> <code className="bg-white/60 px-1 rounded">{result.documentId?.slice(0, 12)}…</code></div>
+            <div><span className="font-medium text-green-600">Log ID:</span> <code className="bg-white/60 px-1 rounded">{result.messageLogId?.slice(0, 12)}…</code></div>
+            <div><span className="font-medium text-green-600">Doc ID:</span> <code className="bg-white/60 px-1 rounded">{result.documentId?.slice(0, 12)}…</code></div>
           </div>
-          <p className="text-xs text-green-600 mt-2">Check "My Logs" for delivery status updates.</p>
+          
+          <div className="border-t border-green-200/60 pt-2.5 text-xs text-green-800 space-y-1.5">
+            <p className="font-bold flex items-center gap-1">📬 Delivery Troubleshooting:</p>
+            <p>If the recipient does not receive the message on their phone:</p>
+            <ul className="list-disc pl-4 space-y-1 text-green-700">
+              <li><strong>For Live Production Numbers:</strong> Ensure the recipient's phone has active internet connectivity, and has not blocked the business WhatsApp number. Also, check the Meta Business Manager for any account/billing alerts.</li>
+              <li><strong>For Sandbox Test Numbers:</strong> Ensure the number is registered under <strong>"Verified Test Numbers"</strong> in your Meta Developer Console, and the recipient has sent a trigger message (like <em>"hi"</em>) to the Sandbox number first.</li>
+            </ul>
+          </div>
         </div>
       )}
     </div>
